@@ -1,0 +1,596 @@
+* {
+
+    box-sizing: border-box;
+
+    margin: 0;
+
+    padding: 0;
+
+}
+
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: #f4f7fb;
+
+    color: #1f2937;
+
+}
+
+
+.container {
+
+    width: 95%;
+
+    max-width: 1450px;
+
+    margin: auto;
+
+    padding: 30px 0;
+
+}
+
+
+header {
+
+    background: white;
+
+    padding: 30px;
+
+    margin-bottom: 25px;
+
+    border-radius: 12px;
+
+    border-left: 6px solid #2563eb;
+
+}
+
+
+header h1 {
+
+    font-size: 36px;
+
+    margin-bottom: 8px;
+
+}
+
+
+header p {
+
+    color: #64748b;
+
+    font-size: 17px;
+
+}
+
+
+.card {
+
+    background: white;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    border-radius: 12px;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+}
+
+
+.card h2 {
+
+    color: #1e3a8a;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =========================
+   TOPOLOGY
+========================= */
+
+.topology {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 35px 5px;
+
+    overflow-x: auto;
+
+}
+
+
+.device {
+
+    min-width: 160px;
+
+    padding: 18px;
+
+    text-align: center;
+
+    border-radius: 12px;
+
+    border: 3px solid #64748b;
+
+    background: #f8fafc;
+
+    transition: 0.3s;
+
+}
+
+
+.device:hover {
+
+    transform: translateY(-3px);
+
+}
+
+
+.device h3 {
+
+    margin: 8px 0;
+
+    font-size: 20px;
+
+}
+
+
+.device p {
+
+    font-size: 12px;
+
+    margin: 5px 0;
+
+}
+
+
+.icon {
+
+    font-size: 42px;
+
+}
+
+
+.pc {
+
+    border-color: #2563eb;
+
+    background: #eff6ff;
+
+}
+
+
+.router {
+
+    border-color: #ea580c;
+
+    background: #fff7ed;
+
+}
+
+
+.connection {
+
+    min-width: 80px;
+
+    text-align: center;
+
+}
+
+
+.line {
+
+    height: 5px;
+
+    background: #94a3b8;
+
+    border-radius: 5px;
+
+    margin-bottom: 8px;
+
+    transition: 0.4s;
+
+}
+
+
+.line.active {
+
+    background: #22c55e;
+
+    box-shadow: 0 0 12px #22c55e;
+
+}
+
+
+.connection span {
+
+    font-size: 10px;
+
+    color: #64748b;
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.controls {
+
+    display: flex;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+}
+
+
+button {
+
+    border: none;
+
+    padding: 12px 22px;
+
+    border-radius: 7px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+}
+
+
+button:hover {
+
+    opacity: 0.85;
+
+}
+
+
+button:nth-child(2) {
+
+    background: #7c3aed;
+
+}
+
+
+button:nth-child(3) {
+
+    background: #64748b;
+
+}
+
+
+.mode-selector {
+
+    display: flex;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 15px;
+
+}
+
+
+#staticButton {
+
+    background: #2563eb;
+
+}
+
+
+#ripButton {
+
+    background: #16a34a;
+
+}
+
+
+#modeText {
+
+    font-weight: bold;
+
+}
+
+
+.progress-container {
+
+    height: 10px;
+
+    background: #e5e7eb;
+
+    border-radius: 10px;
+
+    margin-top: 20px;
+
+    overflow: hidden;
+
+}
+
+
+#progress {
+
+    height: 100%;
+
+    width: 0%;
+
+    background: #22c55e;
+
+    transition: 0.4s;
+
+}
+
+
+#stepText {
+
+    margin-top: 15px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================
+   PACKET
+========================= */
+
+.packet {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+}
+
+
+.packet div {
+
+    padding: 18px;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+}
+
+
+.packet strong {
+
+    display: block;
+
+    color: #475569;
+
+}
+
+
+.packet span {
+
+    display: block;
+
+    margin-top: 10px;
+
+    font-family: monospace;
+
+    color: #2563eb;
+
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+}
+
+
+th,
+td {
+
+    padding: 13px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #e2e8f0;
+
+}
+
+
+th {
+
+    background: #1e3a8a;
+
+    color: white;
+
+}
+
+
+tr:hover {
+
+    background: #f8fafc;
+
+}
+
+
+/* =========================
+   CONSOLE
+========================= */
+
+.console {
+
+    background: #111827;
+
+    color: #d1fae5;
+
+    min-height: 320px;
+
+    padding: 20px;
+
+    border-radius: 8px;
+
+    font-family: Consolas, monospace;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+    overflow-y: auto;
+
+}
+
+
+.console .info {
+
+    color: #93c5fd;
+
+}
+
+
+.console .success {
+
+    color: #86efac;
+
+}
+
+
+/* =========================
+   PING
+========================= */
+
+.ping {
+
+    padding: 20px;
+
+    background: #f8fafc;
+
+    border-radius: 8px;
+
+    font-family: Consolas, monospace;
+
+}
+
+
+.ping.success {
+
+    background: #dcfce7;
+
+    color: #166534;
+
+    border: 1px solid #86efac;
+
+}
+
+
+/* =========================
+   TEST RESULTS
+========================= */
+
+.results {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+.results div {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 14px;
+
+    background: #f8fafc;
+
+    border-radius: 7px;
+
+}
+
+
+.results span {
+
+    font-weight: bold;
+
+    color: #64748b;
+
+}
+
+
+.results span.pass {
+
+    color: #16a34a;
+
+}
+
+
+footer {
+
+    text-align: center;
+
+    padding: 25px;
+
+    color: #64748b;
+
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1000px) {
+
+    .topology {
+
+        flex-direction: column;
+
+    }
+
+
+    .packet {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .connection {
+
+        width: 150px;
+
+    }
+
+}

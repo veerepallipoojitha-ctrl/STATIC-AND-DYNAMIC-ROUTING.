@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Static and Dynamic Routing Simulation</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <h1>Static & Dynamic Routing</h1>
+
+        <p>
+            Static Routes • RIP • Router Forwarding • ICMP Ping
+        </p>
+
+    </header>
+
+
+    <!-- ================= TOPOLOGY ================= -->
+
+    <section class="card">
+
+        <h2>Network Topology</h2>
+
+        <div class="topology">
+
+
+            <!-- PC1 -->
+
+            <div class="device pc">
+
+                <div class="icon">
+                    💻
+                </div>
+
+                <h3>PC1</h3>
+
+                <p>
+                    IP: 192.168.1.10
+                </p>
+
+                <p>
+                    Gateway: 192.168.1.1
+                </p>
+
+            </div>
+
+
+            <div class="connection">
+
+                <div class="line" id="line1"></div>
+
+                <span>
+                    LAN
+                </span>
+
+            </div>
+
+
+            <!-- R1 -->
+
+            <div class="device router">
+
+                <div class="icon">
+                    🌐
+                </div>
+
+                <h3>R1</h3>
+
+                <p>
+                    192.168.1.1
+                </p>
+
+                <p>
+                    10.0.0.1
+                </p>
+
+            </div>
+
+
+            <div class="connection">
+
+                <div class="line" id="line2"></div>
+
+                <span>
+                    10.0.0.0/30
+                </span>
+
+            </div>
+
+
+            <!-- R2 -->
+
+            <div class="device router">
+
+                <div class="icon">
+                    🌐
+                </div>
+
+                <h3>R2</h3>
+
+                <p>
+                    10.0.0.2
+                </p>
+
+                <p>
+                    10.0.0.5
+                </p>
+
+            </div>
+
+
+            <div class="connection">
+
+                <div class="line" id="line3"></div>
+
+                <span>
+                    10.0.0.4/30
+                </span>
+
+            </div>
+
+
+            <!-- R3 -->
+
+            <div class="device router">
+
+                <div class="icon">
+                    🌐
+                </div>
+
+                <h3>R3</h3>
+
+                <p>
+                    10.0.0.6
+                </p>
+
+                <p>
+                    192.168.3.1
+                </p>
+
+            </div>
+
+
+            <div class="connection">
+
+                <div class="line" id="line4"></div>
+
+                <span>
+                    LAN
+                </span>
+
+            </div>
+
+
+            <!-- PC2 -->
+
+            <div class="device pc">
+
+                <div class="icon">
+                    💻
+                </div>
+
+                <h3>PC2</h3>
+
+                <p>
+                    IP: 192.168.3.10
+                </p>
+
+                <p>
+                    Gateway: 192.168.3.1
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CONTROLS ================= -->
+
+    <section class="card">
+
+        <h2>Simulation Controls</h2>
+
+        <div class="controls">
+
+            <button onclick="startSimulation()">
+                ▶ Start Simulation
+            </button>
+
+            <button onclick="nextStep()">
+                ➜ Next Step
+            </button>
+
+            <button onclick="resetSimulation()">
+                ↻ Reset
+            </button>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <div id="progress"></div>
+
+        </div>
+
+
+        <p id="stepText">
+            Ready to start routing simulation.
+        </p>
+
+    </section>
+
+
+    <!-- ================= ROUTING MODE ================= -->
+
+    <section class="card">
+
+        <h2>Routing Mode</h2>
+
+        <div class="mode-selector">
+
+            <button
+                id="staticButton"
+                onclick="setRoutingMode('static')">
+
+                Static Routing
+
+            </button>
+
+            <button
+                id="ripButton"
+                onclick="setRoutingMode('rip')">
+
+                RIP Dynamic Routing
+
+            </button>
+
+        </div>
+
+        <p id="modeText">
+            Current Mode: Static Routing
+        </p>
+
+    </section>
+
+
+    <!-- ================= PACKET ================= -->
+
+    <section class="card">
+
+        <h2>Packet Information</h2>
+
+        <div class="packet">
+
+            <div>
+
+                <strong>
+                    Source IP
+                </strong>
+
+                <span id="sourceIP">
+                    --
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Destination IP
+                </strong>
+
+                <span id="destinationIP">
+                    --
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Current Router
+                </strong>
+
+                <span id="currentRouter">
+                    --
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Next Hop
+                </strong>
+
+                <span id="nextHop">
+                    --
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Protocol
+                </strong>
+
+                <span id="protocol">
+                    --
+                </span>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Hop Count
+                </strong>
+
+                <span id="hopCount">
+                    --
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= STATIC ROUTES ================= -->
+
+    <section class="card">
+
+        <h2>Static Routing Tables</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Router</th>
+
+                    <th>Destination Network</th>
+
+                    <th>Next Hop</th>
+
+                    <th>Interface</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>R1</td>
+
+                    <td>192.168.3.0/24</td>
+
+                    <td>10.0.0.2</td>
+
+                    <td>G0/1</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>R2</td>
+
+                    <td>192.168.1.0/24</td>
+
+                    <td>10.0.0.1</td>
+
+                    <td>G0/0</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>R2</td>
+
+                    <td>192.168.3.0/24</td>
+
+                    <td>10.0.0.6</td>
+
+                    <td>G0/1</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>R3</td>
+
+                    <td>192.168.1.0/24</td>
+
+                    <td>10.0.0.5</td>
+
+                    <td>G0/0</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ================= RIP TABLE ================= -->
+
+    <section class="card">
+
+        <h2>RIP Dynamic Routing Table</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Router</th>
+
+                    <th>Network</th>
+
+                    <th>Next Hop</th>
+
+                    <th>Metric</th>
+
+                    <th>Protocol</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="ripTable">
+
+                <tr>
+
+                    <td>R1</td>
+
+                    <td>192.168.3.0/24</td>
+
+                    <td>10.0.0.2</td>
+
+                    <td>2</td>
+
+                    <td>RIP</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>R2</td>
+
+                    <td>192.168.1.0/24</td>
+
+                    <td>10.0.0.1</td>
+
+                    <td>1</td>
+
+                    <td>RIP</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>R2</td>
+
+                    <td>192.168.3.0/24</td>
+
+                    <td>10.0.0.6</td>
+
+                    <td>1</td>
+
+                    <td>RIP</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>R3</td>
+
+                    <td>192.168.1.0/24</td>
+
+                    <td>10.0.0.5</td>
+
+                    <td>2</td>
+
+                    <td>RIP</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </section>
+
+
+    <!-- ================= ROUTING PROCESS ================= -->
+
+    <section class="card">
+
+        <h2>Routing Process</h2>
+
+        <div id="routingConsole" class="console">
+
+            <div>
+                Routing simulator ready...
+            </div>
+
+            <div>
+                Select Static Routing or RIP.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PING ================= -->
+
+    <section class="card">
+
+        <h2>ICMP Ping Test</h2>
+
+        <div id="pingResult" class="ping">
+
+            Waiting for routing simulation...
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= TEST RESULT ================= -->
+
+    <section class="card">
+
+        <h2>Application Test Result</h2>
+
+        <div class="results">
+
+            <div>
+
+                Static Routing
+
+                <span id="test1">
+                    WAITING
+                </span>
+
+            </div>
+
+
+            <div>
+
+                RIP Dynamic Routing
+
+                <span id="test2">
+                    WAITING
+                </span>
+
+            </div>
+
+
+            <div>
+
+                Route Selection
+
+                <span id="test3">
+                    WAITING
+                </span>
+
+            </div>
+
+
+            <div>
+
+                Packet Forwarding
+
+                <span id="test4">
+                    WAITING
+                </span>
+
+            </div>
+
+
+            <div>
+
+                ICMP Ping
+
+                <span id="test5">
+                    WAITING
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            Computer Networks — Static & Dynamic Routing Simulation
+        </p>
+
+    </footer>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
